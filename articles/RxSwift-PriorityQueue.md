@@ -1,5 +1,5 @@
 # RxSwift PriorityQueue 优先级队列的实现
----
+
 在 RxSwift 框架中，在 PriorityQueue.swift 文件中，使用数组实现了一个优先级队列 `PriorityQueue`。
 
 > **优先级队列**（priority queue）是0个或者多个元素的集合，每个元素有一个优先级，可以在集合中查找或删除优先级最高的元素。对优先级队列执行的操作有:
