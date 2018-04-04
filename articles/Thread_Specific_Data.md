@@ -1,4 +1,4 @@
-﻿# 线程特有数据(Thread Specific Data)
+# 线程特有数据(Thread Specific Data)
 
 在单线程程序中，我们经常要使用`全局变量`来实现多个函数间共享数据。在多线程环境下，由于数据空间是共享的，因此全局变量也为所有线程所共有。但有时在应用程序设计中有必要提供`线程私有`的全局变量，仅在某个线程中有效，但可以跨多个函数访问，这样每个线程访问它自己独立的数据空间，而不用担心和其它线程的同步访问。
 > 比如：在程序中每个线程都使用同一个指针索引一个链表，并在多个函数内通过指针对链表进行操作，但是每个线程通过指针索引的链表都是自己独有的数据。
@@ -106,12 +106,18 @@ struct pthread_key_data {
 
 
 ## 参考
+
 https://blog.csdn.net/hustraiet/article/details/9857919
-https://blog.csdn.net/hustraiet/article/details/9857919
+
 https://blog.csdn.net/caigen1988/article/details/7901248
+
 http://www.bidutools.com/?p=2443
+
 https://spockwangs.github.io/blog/2017/12/01/thread-local-storage/
+
 https://www.jianshu.com/p/71c2f80d7bd1
+
 https://blog.csdn.net/cywosp/article/details/26469435
-http://www.embeddedlinux.org.cn/emblinuxappdev/117.htm  
+
+http://www.embeddedlinux.org.cn/emblinuxappdev/117.htm
 
