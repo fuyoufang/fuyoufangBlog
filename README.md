@@ -18,4 +18,4 @@
 ## Git
 | 主题 | 文章 | 备注 |
 |:-------:|:------|:----:|
-| GitHub | [Fork 一个仓库](./articles/Fork_A_Repo_2018_5_10.md) | |
+| GitHub | [Fork 一个仓库](./articles/2018_5_10_Fork_A_Repo.md)<br>[同步 Fork](./articles/2018_5_10_Syncing_a_fork.md) | |

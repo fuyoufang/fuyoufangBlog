@@ -110,7 +110,7 @@ fork 一个仓库仅仅需要两步操作。你可以通过我们创建了一个
     upstream  https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git (push)
     ```
 
-现在你可以用几个 Git 命令将你的 fork 和上游仓库保持同步。更多的信息，请看[同步 fork](https://help.github.com/articles/syncing-a-fork/)。
+现在你可以用几个 Git 命令将你的 fork 和上游仓库保持同步。更多的信息，请看同步 fork（[原文](https://help.github.com/articles/syncing-a-fork/)，[译文](./2018_5_10_Syncing_a_fork.md)）。
 
 #### 下一步
 你能够对 fork 的修改包括：
