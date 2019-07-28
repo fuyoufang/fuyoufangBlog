@@ -9,4 +9,6 @@
 [gitignore](http://gitignore.io/)
 
 # Mac
-[woodpeck 调试工具](http://www.woodpeck.cn/) 调试工具
+[woodpeck 网络调试工具](http://www.woodpeck.cn/) 
+
+[lookin 免费好用的 iOS UI 调试软件](https://lookin.work/)
