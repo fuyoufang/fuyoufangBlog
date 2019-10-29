@@ -15,7 +15,7 @@
 sent to an object that is not KVC-compliant for the "***" property.
 ```
 
-在 RxSwift 框架下，提供了 rx.observe 和 rx.observeWeakly 两种方式的课观察序列。
+在 RxSwift 框架下，提供了 `rx.observe` 和 `rx.observeWeakly` 两种方式的课观察序列。
 
 ### rx.observe 
 rx.observe 是对 KVO 的简单封装，执行效率更高。它要求被观察的属性路径都是使用 strong 修饰的，如果观察使用 weak 修饰的属性，可会发生崩溃。
@@ -31,6 +31,9 @@ rx.observeWeakly 可以处理属性变为空的情况，所有可以用在使用
 
 下面为采用 RxSwift 框架下的实例：
 ```
+import RxCocoa
+import RxSwift
+
 class User: NSObject {
     @objc dynamic var name: String
     
@@ -88,7 +91,7 @@ class TestViewController: UIViewController {
 
 > 也就是说 TestViewController 中的 user 属性需要使用 `@objc dynamic` 进行标记，User 类中的 name 属性，也要用 `@objc dynamic` 进行标记。
 
-在实例中，必须使用 rx.observeWeakly 进行监听，否则会产生循环应用。
+在实例中，必须使用 `rx.observeWeakly` 进行监听，否则会产生循环应用。
 
 
 ## 其他
