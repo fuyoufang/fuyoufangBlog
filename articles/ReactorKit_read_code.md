@@ -62,7 +62,7 @@ private class Weak<T>: Hashable where T: AnyObject {
 }
 ```
 
-这样就满足了[条件 1](#key-的定义) 和[条件 2]((#key-的定义))。
+这样就满足了条件 1 和条件 2。
 
 在设置 dictionary 中 key 对应的被扩展的属性值时的方法如下：
 
@@ -128,7 +128,7 @@ private class DeallocHook {
     }
 }
 ```
-DeallocHook 实例作为被扩展的实例的属性。被扩展的实例在销毁时，DeallocHook 自然也会销毁，这时就会调用 handler。这样就保证的[条件 3](#key-的定义)。
+DeallocHook 实例作为被扩展的实例的属性。被扩展的实例在销毁时，DeallocHook 自然也会销毁，这时就会调用 handler。这样就保证的条件 3。
 
 ### 总结
 
