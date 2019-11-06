@@ -4,26 +4,24 @@
 
 [ReactorKit](https://github.com/ReactorKit/ReactorKit) 是一个响应式、单向 Swift 应用框架。下面来介绍一下 ReactorKit 当中的基本概念和使用方法。
 
-## Table of Contents
+## 目录
 
 * [基本概念](#基本概念)
-    * [设计目标](#d设计目标)
+    * [设计目标](#设计目标)
     * [View](#view)
-    * [Reactor](#reactor)
-* [Advanced](#advanced)
-    * [Global States](#global-states)
-    * [View Communication](#view-communication)
-    * [Testing](#testing)
-    * [Scheduling](#scheduling)
+    * [Reactor](#Reactor-反应堆)
+* [高级用法](#高级用法)
+    * [Global States (全局状态) ](#Global-States-(全局状态) )
+    * [View Communication (View 通信)](#View-Communication-(View-通信))
+    * [Testing 测试](#Testing-测试)
+    * [Scheduling 调度](#Scheduling-调度)
 * [示例](#示例)
 * [依赖](#依赖)
 * [其他](#其他)
 
 ## 基本概念
 
-ReactorKit is a combination of [Flux](https://facebook.github.io/flux/) and [Reactive Programming](https://en.wikipedia.org/wiki/Reactive_programming). The user actions and the view states are delivered to each layer via observable streams. These streams are unidirectional: the view can only emit actions and the reactor can only emit states.
-
-用户的操作和视图 view 的状态通过可被观察的流传递到各层。这些流是单向的：视图 view 仅能发出操作 action，反应堆仅能发出状态 states。
+ReactorKit 是 [Flux](https://facebook.github.io/flux/) 和 [Reactive Programming](https://en.wikipedia.org/wiki/Reactive_programming) 的混合体。用户的操作和视图 view 的状态通过可被观察的流传递到各层。这些流是单向的：视图 view 仅能发出操作（action）流 ，反应堆仅能发出状态（states）流。
 
 <p align="center">
   <img alt="flow" src="https://cloud.githubusercontent.com/assets/931655/25073432/a91c1688-2321-11e7-8f04-bf91031a09dd.png" width="600">
@@ -31,17 +29,16 @@ ReactorKit is a combination of [Flux](https://facebook.github.io/flux/) and [Rea
 
 ### 设计目标
 
-* **可测性**: ReactorKit 的首要目标是将业务逻辑从视图 view 上分离。这可以让代码方便测试。一个反应堆不依赖于任何 view。这样就只需要测试反应堆和 view 数据的绑定。[测试](#测试)详情可点击查看。
-* **侵入小**: ReactorKit 不要求整个应用采用这一种结构。对于一些特殊的 view，可以部分的采用 ReactorKit。对于已有的项目，不需要重写任何东西，就可以直接使用 ReactorKit。
-* **更少的键入**: 对于一些简单的功能，ReactorKit 可以减少代码的复杂度。和其他的框架项目，ReactorKit 需要的代码更少。可以从一个简单的功能开始，逐渐扩大使用的范围。
+* **可测性**：ReactorKit 的首要目标是将业务逻辑从视图 view 上分离。这可以让代码方便测试。一个反应堆不依赖于任何 view。这样就只需要测试反应堆和 view 数据的绑定。测试方法可点击[查看](#Testing-测试)。
+* **侵入小**：ReactorKit 不要求整个应用采用这一种框架。对于一些特殊的 view，可以部分的采用 ReactorKit。对于现存的项目，不需要重写任何东西，就可以直接使用 ReactorKit。
+* **更少的键入**：对于一些简单的功能，ReactorKit 可以减少代码的复杂度。和其他的框架相比，ReactorKit 需要的代码更少。可以从一个简单的功能开始，逐渐扩大使用的范围。
 
 
 ### View
 
-*View* 用来展示数据。 view controller 和 cell 都别看做一个 view。view 需要做两件事：（1）绑定用户输入的操作流，（2） 将 view 状态流绑定到对应的 UI 元素。view 层没有业务逻辑，只负责绑定操作流和状态流。
+*View* 用来展示数据。 view controller 和 cell 都可以看做一个 view。view 需要做两件事：（1）绑定用户输入的操作流，（2）将状态流绑定到 view 对应的 UI 元素。view 层没有业务逻辑，只负责绑定操作流和状态流。
 
-定义一个 view，只需要将一个存在的类符合协议 `View`。然后这个类就自动有了一个 `reactor` 的属性。这个属性通常在 view 之外设置。
-
+定义一个 view，只需要将一个现存的类符合协议 `View`。然后这个类就自动有了一个 `reactor` 的属性。view 的这个属性通常由外界设置。
 
 ```swift
 class ProfileViewController: UIViewController, View {
@@ -51,7 +48,7 @@ class ProfileViewController: UIViewController, View {
 profileViewController.reactor = UserViewReactor() // inject reactor
 ```
 
-当这个 `reactor` 属性被修改的时候，`bind(reactor:)` 将会被调用。实现这个方法来绑定操作流和状态流。
+当这个 `reactor` 属性被设置（或修改）的时候，将自动调用 `bind(reactor:)` 方法。view 通过实现 `bind(reactor:)` 来绑定操作流和状态流。
 
 ```swift
 func bind(reactor: ProfileViewReactor) {
@@ -69,7 +66,7 @@ func bind(reactor: ProfileViewReactor) {
 
 #### Storyboard 的支持
 
-如果使用 storyboard 来初始一个 view controller，则需要使用 `StoryboardView` 协议。唯一不同的点是 `StoryboardView` 协议是在 view 加载结束之后进行绑定的。
+如果使用 storyboard 来初始一个 view controller，则需要使用 `StoryboardView` 协议。`StoryboardView` 协议和 `View` 协议相比，唯一不同的是 `StoryboardView` 协议是在 view 加载结束之后进行绑定的。
 
 ```swift
 let viewController = MyViewController()
@@ -84,9 +81,9 @@ class MyViewController: UIViewController, StoryboardView {
 
 ### Reactor 反应堆
 
-反应堆 *Reactor* 层，和 UI 无关，它控制者一个 view 的状态。reactor 最主要的作用就是将操作流从 view 中分离。每个 view 都有它对应的反应堆 reactor，并且将它所有的逻辑委托给它的反应堆 reactor。
+反应堆 *Reactor* 层，和 UI 无关，它控制着一个 view 的状态。reactor 最主要的作用就是将操作流从 view 中分离。每个 view 都有它对应的反应堆 reactor，并且将它所有的逻辑委托给它的反应堆 reactor。
 
-定义一个 reactor 需要符合 `Reactor` 协议。找个协议要求三个类型来定义 `Action`, `Mutation` 和 `State`。另外它需要定义一个名为 `initialState` 的属性。
+定义一个 reactor 时需要符合 `Reactor` 协议。这个协议要求定义三个类型： `Action`, `Mutation` 和 `State`，另外它需要定义一个名为 `initialState` 的属性。
 
 ```swift
 class ProfileViewReactor: Reactor {
@@ -110,9 +107,7 @@ class ProfileViewReactor: Reactor {
 }
 ```
 
-An `Action` represents a user interaction and `State` represents a view state. `Mutation` is a bridge between `Action` and `State`. A reactor converts the action stream to the state stream in two steps: `mutate()` and `reduce()`.
-
-`Action` 表示用户操作，`State` 代表一个 view 的状态，`Mutation` 是 `Action` 和 `State` 直接的桥梁。一个反应堆 reactor 将一个 action 流转化到 state 流，需要两步：`mutate()` 和 `reduce()`。
+`Action` 表示用户操作，`State` 表示 view 的状态，`Mutation` 是 `Action` 和 `State` 之间的转化桥梁。reactor 将一个 action 流转化到 state 流，需要两步：`mutate()` 和 `reduce()`。
 
 <p align="center">
   <img alt="flow-reactor" src="https://cloud.githubusercontent.com/assets/931655/25098066/2de21a28-23e2-11e7-8a41-d33d199dd951.png" width="800">
@@ -126,7 +121,7 @@ An `Action` represents a user interaction and `State` represents a view state. `
 func mutate(action: Action) -> Observable<Mutation>
 ```
 
-所有的副作用应该在这个方法内执行，比如一个异步操作，或者 API 的调用。
+所有的副作用应该在这个方法内执行，比如异步操作，或者 API 的调用。
 
 ```swift
 func mutate(action: Action) -> Observable<Mutation> {
@@ -148,13 +143,11 @@ func mutate(action: Action) -> Observable<Mutation> {
 
 #### `reduce()`
 
-`reduce()` 由之前的 `State` 和一个 `Mutation` 生成一个新的 `State`。
+`reduce()` 由当前的 `State` 和一个 `Mutation` 生成一个新的 `State`。
 
 ```swift
 func reduce(state: State, mutation: Mutation) -> State
 ```
-
-This method is a pure function. It should just return a new `State` synchronously. Don't perform any side effects in this function.
 
 这个应该是一个简单的方法。它应该仅仅同步的返回一个新的 `State`。不要在这个方法内执行任何有副作用的操作。
 
@@ -179,9 +172,9 @@ func transform(mutation: Observable<Mutation>) -> Observable<Mutation>
 func transform(state: Observable<State>) -> Observable<State>
 ```
 
-实现这些方法可以转化或者将其他流进行合并。例如：在合并全局事件流时，最好使用 `transform(mutation:)` 方法。点击查看[全局状态](#全局状态-global-states)的更多信息。
+通过这些方法可以将流进行转化，或者将流和其他流进行合并。例如：在合并全局事件流时，最好使用 `transform(mutation:)` 方法。点击查看[全局状态](#Global-States-(全局状态))的更多信息。
 
-这些方法也可以用于测试。
+另外，也可以通过这些方法进行测试。
 
 ```swift
 func transform(action: Observable<Action>) -> Observable<Action> {
@@ -191,11 +184,11 @@ func transform(action: Observable<Action>) -> Observable<Action> {
 
 ## 高级用法
 
-### 全局状态 Global States
+### Global States (全局状态) 
 
-和 Redux 不同, ReactorKit 不需要一个全局的 app state，这意味着你可以使用任何东西来管理全局 state，例如一个  `BehaviorSubject`，或者 `PublishSubject`，甚至一个 reactor。ReactorKit 不会强制一个全局的状态，所有你可以在任何特殊的应用中使用 ReactorKit。
+和 Redux 不同, ReactorKit 不需要一个全局的 app state，这意味着你可以使用任何类型来管理全局 state，例如用 `BehaviorSubject`，或者 `PublishSubject`，甚至一个 reactor。ReactorKit 不需要一个全局状态，所以不管应用程序有多特殊，都可以使用 ReactorKit。
 
-在 **Action → Mutation → State** 流中，没有使用任何全局的状态。你可以使用 `transform(mutation:)` 将一个全局的 state 转化为 mutation。假设我们使用一个全局的 `BehaviorSubject` 来存储当前授权的用户。当 `currentUser` 变化时，需要发出 `Mutation.setUser(User?)`，则可以采用下面的方案：
+在 **Action → Mutation → State** 流中，没有使用任何全局的状态。你可以使用 `transform(mutation:)` 将一个全局的 state 转化为 mutation。例如：我们使用一个全局的 `BehaviorSubject` 来存储当前授权的用户，当 `currentUser` 变化时，需要发出 `Mutation.setUser(User?)`，则可以采用下面的方案：
 
 ```swift
 var currentUser: BehaviorSubject<User> // global state
@@ -206,9 +199,9 @@ func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
 ```
 这样，当 view 每次向 reactor 产生一个 action 或者 `currentUser` 改变的时候，都会发送一个 mutation。
 
-### View 通信（View Communication)
+### View Communication (View 通信)
 
-多个 view 之间通信时，通常会采用回调闭包或者代理模式。ReactorKit 建议采用 [reactive extensions](https://github.com/ReactiveX/RxSwift/blob/master/RxSwift/Reactive.swift) 来解决。最常见的 `ControlEvent` 示例是 `UIButton.rx.tap`。关键概念就是将自定义的视图转化为 UIButton 或者 UILabel。
+多个 view 之间通信时，通常会采用回调闭包或者代理模式。ReactorKit 建议采用 [reactive extensions](https://github.com/ReactiveX/RxSwift/blob/master/RxSwift/Reactive.swift) 来解决。最常见的 `ControlEvent` 示例是 `UIButton.rx.tap`。关键思路就是将自定义的视图转化为像 UIButton 或者 UILabel 一样。
 
 <p align="center">
   <img alt="view-view" src="https://user-images.githubusercontent.com/931655/27789114-393e2eea-6026-11e7-9b32-bae314e672ee.png" width="600">
@@ -225,7 +218,7 @@ extension Reactive where Base: MessageInputView {
 }
 ```
 
-这样就是可在 `ChatViewController` 使用这个扩展。例如：
+这样就是可以在 `ChatViewController` 中使用这个扩展。例如：
 
 ```swift
 messageInputView.rx.sendButtonTap
@@ -233,30 +226,23 @@ messageInputView.rx.sendButtonTap
   .bind(to: reactor.action)
 ```
 
-### 测试
+### Testing 测试
 
-ReactorKit 有一个用来测试的 built-in 功能。通过下面的指导，你可以很容易测试 view 和 reactor。
+ReactorKit 有一个用于测试的 built-in 功能。通过下面的指导，你可以很容易测试 view 和 reactor。
 
 #### 测试内容
 
-First of all, you have to decide what to test. There are two things to test: a view and a reactor.
-首先，你要确定测试内容。有两个方面需要测试，一个 view 或者一个 reactor。
+首先，你要确定测试内容。有两个方面需要测试，一个是 view 或者一个是 reactor。
 
 * View
-    * Action: is a proper action sent to a reactor with a given user interaction?
-    * State: is a view property set properly with a following state?
+    * Action: 能否通过给定的用户交互发送给 reactor 对应的 action？
+    * State: view 能否根据给定的 state 对属性进行正确的设置？
 * Reactor
-    * State: is a state changed properly with an action?
-
-* View
-    * Action: 是否能够通过给定的用户交互发送给 reactor 对应的 action？
-    * State: view 是否能够根据给定的 state 对属性进行正确的设置？
-* Reactor
-    * State: state 能够根据 action 进行正确的修改？
+    * State: state 能否根据 action 进行相应的修改？
 
 #### View 测试
 
-view 可以根据 *stub* reactor 进行测试。reactor 有一个 `stub` 的属性，他可以打印 actions，并且强制修个 states。如果启用了 reactor 的 stub，`mutate()` 和 `reduce()` 将不会被执行。stub 有下面几个属性：
+view 可以根据 *stub* reactor 进行测试。reactor 有一个 `stub` 的属性，它可以打印 actions，并且强制修改 states。如果启用了 reactor 的 stub，`mutate()` 和 `reduce()` 将不会被执行。stub 有下面几个属性：
 
 ```swift
 var isEnabled: Bool { get set }
@@ -303,7 +289,7 @@ func testState_isLoading() {
 
 #### 测试 Reactor 
 
-reactor 可以被独立的测试。
+reactor 可以被单独测试。
 
 ```swift
 func testIsBookmarked() {
@@ -315,7 +301,7 @@ func testIsBookmarked() {
 }
 ```
 
-有时，一个 action 的会导致 state 改变多次。 例如，一个 `.refresh` action 首先将 `state.isLoading` 设置为 `true`，并在刷新结束后设置为 `false`。在这种情况下，很难用 `currentState` 测试 `state` 的 `isLoading`。对此，你可以使用 [RxTest](https://github.com/ReactiveX/RxSwift) 或 [RxExpect](https://github.com/devxoul/RxExpect)。下面是使用 RxExpect 的测试案例：
+一个 action 有时会导致 state 多次改变。比如，一个 `.refresh` action 首先将 `state.isLoading` 设置为 `true`，并在刷新结束后设置为 `false`。在这种情况下，很难用 `currentState` 测试 `state` 的 `isLoading` 的状态更改过程。这时，你可以使用 [RxTest](https://github.com/ReactiveX/RxSwift) 或 [RxExpect](https://github.com/devxoul/RxExpect)。下面是使用 RxExpect 的测试案例：
 
 ```swift
 func testIsLoading() {
@@ -334,9 +320,9 @@ func testIsLoading() {
 }
 ```
 
-### Scheduling
+### Scheduling 调度
 
-Define `scheduler` property to specify which scheduler is used for reducing and observing the state stream. Note that this queue **must be** a serial queue. The default scheduler is `CurrentThreadScheduler`.
+定义 `scheduler` 属性来指定发出和观察的状态流的 `scheduler`。注意：这个队列 **必须** 是一个串行队列。`scheduler` 的默认值是 `CurrentThreadScheduler`。
 
 ```swift
 final class MyReactor: Reactor {
