@@ -1,6 +1,6 @@
-# Swfit URLNavigator 框架
+# Swift URLNavigator 框架
 
-⛵️ URLNavigator 是 Swfit 下一个优雅的 URL 路由。它提供了通过 URL 导航到 view controller 的方式。URL 参数的对应关系通过 `URLNavigator.register(_:_:)` 方法进行设置。
+⛵️ URLNavigator 是 Swift 下一个优雅的 URL 路由。它提供了通过 URL 导航到 view controller 的方式。URL 参数的对应关系通过 `URLNavigator.register(_:_:)` 方法进行设置。
 
 URLNavigator 提供了两种方法来设置 URL 参数的对应关系：`URLNavigable` 和 `URLOpenHandler`。`URLNavigable` 通过自定义的初始化方法进行设置，`URLOpenHandler` 通过一个可执行的闭包进行设置。初始化方法和闭包都接受一个 URL 和占位符值。
 
