@@ -20,7 +20,7 @@ Drrrible 使用了 [ReactorKit][3]， 关于 ReactorKit 可以看我之前写的
 Settings 页面如下：
 
 <div align="center">    
-     <img src="./../images/Drrrible/Settings.png" width = "300" alt="Settings" align=center />
+     <img src="./../images/Drrrible/Settings.png" width = "200" alt="Settings" align=center />
 </div>
 
 
@@ -55,7 +55,9 @@ func transform(action: Observable<Action>) -> Observable<Action> {
 
 再来看 Version 页面。Version 页面和 Settings 页面类似，其中只有 Latest version 需要从网络上获取。
 
-![](../images/Drrrible/Version.png)
+<div align="center">    
+     <img src="./../images/Drrrible/Version.png" width = "200" alt="Version" align=center />
+</div>
 
 通常一个 TableViewController 对应的 Reactor 的 State 中都会有一个 sections 的数组属性，用来控制页面中 cell 的展示。但是这个页面，作者并没有用这种方式。
 
@@ -100,7 +102,9 @@ final class UserService: UserServiceType {
 
 Drrrible 最复杂的页面应该就是 Shot 的详情页了。
 
-![](../images/Drrrible/View.png)
+<div align="center">    
+     <img src="./../images/Drrrible/View.png" width = "200" alt="View" align=center />
+</div>
 
 在列表、详情页对内容进行点赞是一个常规的产品需求，那作者是怎么划分控制这个界面？又有哪些可以学习的地方呢？
 
