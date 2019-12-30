@@ -19,7 +19,10 @@ Drrrible 使用了 [ReactorKit][3]， 关于 ReactorKit 可以看我之前写的
 
 Settings 页面如下：
 
-![](./../images/Drrrible/Settings.png =100*100)
+<div align="center">    
+     <img src="./../images/Drrrible/Settings.png" width = "300" alt="Settings" align=center />
+</div>
+
 
 在 Settings 页面，只有当前登录的用户名称是变化的值，其他的值都是固定的。SettingsViewController 对应 Reactor 为 SettingsViewReactor。SettingsViewReactor 肯定不负责管理当前登录用户的信息，那怎么将 Settings 页面中的信息和当前登录的用户信息进行合并呢？
 
