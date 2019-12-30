@@ -15,8 +15,6 @@
 
 ## 1.1. ReactorKit 的事件转化
 
----
-
 Drrrible 使用了 [ReactorKit][3]， 关于 ReactorKit 可以看我之前写的  [翻译][5] 和 [笔记][4]，
 
 Settings 页面如下：
