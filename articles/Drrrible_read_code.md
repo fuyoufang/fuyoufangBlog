@@ -15,13 +15,14 @@
 
 ## 1.1. ReactorKit 的事件转化
 
----
-
 Drrrible 使用了 [ReactorKit][3]， 关于 ReactorKit 可以看我之前写的  [翻译][5] 和 [笔记][4]，
 
 Settings 页面如下：
 
-![](./../images/Drrrible/Settings.png)
+<div align="center">    
+     <img src="./../images/Drrrible/Settings.png" width = "200" alt="Settings" align=center />
+</div>
+
 
 在 Settings 页面，只有当前登录的用户名称是变化的值，其他的值都是固定的。SettingsViewController 对应 Reactor 为 SettingsViewReactor。SettingsViewReactor 肯定不负责管理当前登录用户的信息，那怎么将 Settings 页面中的信息和当前登录的用户信息进行合并呢？
 
@@ -54,7 +55,9 @@ func transform(action: Observable<Action>) -> Observable<Action> {
 
 再来看 Version 页面。Version 页面和 Settings 页面类似，其中只有 Latest version 需要从网络上获取。
 
-![](../images/Drrrible/Version.png)
+<div align="center">    
+     <img src="./../images/Drrrible/Version.png" width = "200" alt="Version" align=center />
+</div>
 
 通常一个 TableViewController 对应的 Reactor 的 State 中都会有一个 sections 的数组属性，用来控制页面中 cell 的展示。但是这个页面，作者并没有用这种方式。
 
@@ -99,7 +102,9 @@ final class UserService: UserServiceType {
 
 Drrrible 最复杂的页面应该就是 Shot 的详情页了。
 
-![](../images/Drrrible/View.png)
+<div align="center">    
+     <img src="./../images/Drrrible/View.png" width = "200" alt="View" align=center />
+</div>
 
 在列表、详情页对内容进行点赞是一个常规的产品需求，那作者是怎么划分控制这个界面？又有哪些可以学习的地方呢？
 
